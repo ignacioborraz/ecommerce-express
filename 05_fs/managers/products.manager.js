@@ -17,7 +17,7 @@ class ProductsManager {
       console.log("file already exists");
     }
   }
-  async read() {
+  async readAll() {
     try {
       const data = await fs.promises.readFile(this.path, "utf-8");
       const parseData = JSON.parse(data);
@@ -25,18 +25,31 @@ class ProductsManager {
       return parseData;
     } catch (error) {
       console.log(error);
+      throw error;
+    }
+  }
+  async read(id) {
+    try {
+      const all = await this.readAll();
+      const one = all.find((each) => each.id === id);
+      //console.log(one);
+      return one;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }
   async create(data) {
     try {
       data.id = crypto.randomBytes(12).toString("hex");
-      const all = await this.read();
+      const all = await this.readAll();
       all.push(data);
       const stringAll = JSON.stringify(all, null, 2);
       await fs.promises.writeFile(this.path, stringAll);
       return data.id;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 }

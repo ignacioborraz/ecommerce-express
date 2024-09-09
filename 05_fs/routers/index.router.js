@@ -7,7 +7,7 @@ async function router(req, res) {
     case "/":
       return res.writeHead(200, opts).end("API CONNECTED");
     case "/products":
-      const data = await productsManager.read();
+      const data = await productsManager.readAll();
       return res.writeHead(200, opts).end(JSON.stringify(data));
     case "/products/create":
       const one = { title: "prod", price: 100 };
