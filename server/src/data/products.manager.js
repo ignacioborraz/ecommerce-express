@@ -59,6 +59,41 @@ class ProductsManager {
       throw error;
     }
   }
+
+  async update(id, newData) {
+    try {
+      const all = await this.readAll();
+      const index = all.findIndex((product) => product.id === id);
+      if (index === -1) {
+        return null;
+      }
+      // Actualizamos el producto
+      all[index] = { ...all[index], ...newData };
+      const stringAll = JSON.stringify(all, null, 2);
+      await fs.promises.writeFile(this.path, stringAll);
+      return all[index];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  // Método para eliminar un producto
+  async delete(id) {
+    try {
+      const all = await this.readAll();
+      const filteredProducts = all.filter((product) => product.id !== id);
+      if (all.length === filteredProducts.length) {
+        return null
+      }
+      const stringAll = JSON.stringify(filteredProducts, null, 2);
+      await fs.promises.writeFile(this.path, stringAll);
+      return `Product with id ${id} deleted`;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }
 
 const productsManager = new ProductsManager("./src/data/files/products.json");
