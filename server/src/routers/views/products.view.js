@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { showProducts, showOneProduct } from "../../controllers/products.controller.js";
 
 const productsViewRouter = Router()
 
-//definir las rutas DE VISTAS correspondientes y luego exportar
+productsViewRouter.get("/", showProducts)
+productsViewRouter.get("/:pid", showOneProduct)
 
 export default productsViewRouter
