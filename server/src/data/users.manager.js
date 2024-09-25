@@ -17,14 +17,14 @@ class UsersManager {
       console.log("file already exists");
     }
   }
-  async readAll(category) {
+  async readAll(role) {
     try {
       const data = await fs.promises.readFile(this.path, "utf-8");
       const parseData = JSON.parse(data);
       //console.log(parseData);
-      if (category) {
+      if (role) {
         const filteredData = parseData.filter(
-          (each) => each.category === category
+          (each) => each.role === role
         );
         return filteredData;
       } else {

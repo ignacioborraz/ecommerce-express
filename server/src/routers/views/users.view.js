@@ -1,7 +1,8 @@
 import { Router } from "express";
+import { registerView } from "../../controllers/users.controller.js";
 
 const usersViewRouter = Router()
 
-//definir las rutas DE VISTAS correspondientes y luego exportar
+usersViewRouter.get("/register", registerView)
 
 export default usersViewRouter
