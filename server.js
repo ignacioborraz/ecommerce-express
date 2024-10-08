@@ -1,3 +1,5 @@
+import "dotenv/config.js"
+//primero importa la configuracion del modulo de dotenv
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -8,11 +10,16 @@ import morgan from "morgan";
 import errorHandler from "./src/middlewares/errorHandler.mid.js";
 import pathHandler from "./src/middlewares/pathHandler.mid.js";
 import router from "./src/routers/index.router.js";
+import dbConnect from "./src/utils/db.util.js";
 
 // http server
 const server = express();
-const port = 8080;
-const ready = () => console.log("server ready on port " + port);
+const port = process.env.PORT || 8080;
+// para usar las variables de entorno es necesario llamar al objeto process.env.NOMBRE_VARIABLE
+const ready = async () => {
+  console.log("server ready on port " + port);
+  await dbConnect()
+}
 const httpServer = createServer(server);
 httpServer.listen(port, ready);
 
