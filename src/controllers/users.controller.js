@@ -1,4 +1,4 @@
-import usersMongoManager from "../data/mongo/managers/user.mongo.js";
+import usersMongoManager from "../data/mongo/managers/user.manager.js";
 
 const create = async (req, res, next) => {
     try {
@@ -15,7 +15,7 @@ const create = async (req, res, next) => {
     try {
       const filter = req.query;
       const response = await usersMongoManager.readAll(filter);
-      if (response) {
+      if (response.length > 0) {
         return res.status(200).json({ message: "USERS READ", response });
       } else {
         const error = new Error("USERS NOT FOUND");

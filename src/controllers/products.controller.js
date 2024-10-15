@@ -1,4 +1,4 @@
-import productsMongoManager from "../data/mongo/managers/product.mongo.js";
+import productsMongoManager from "../data/mongo/managers/product.manager.js";
 
 const create = async (req, res, next) => {
   try {
@@ -15,7 +15,7 @@ const readAll = async (req, res, next) => {
   try {
     const filter = req.query;
     const response = await productsMongoManager.readAll(filter);
-    if (response) {
+    if (response.length > 0) {
       return res.status(200).json({ message: "PRODUCTS READ", response });
     } else {
       const error = new Error("PRODUCTS NOT FOUND");
