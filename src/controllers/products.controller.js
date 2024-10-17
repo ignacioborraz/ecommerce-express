@@ -26,6 +26,33 @@ const readAll = async (req, res, next) => {
     return next(error);
   }
 };
+const paginate = async (req, res, next) => {
+  try {
+    // const filter = req.query
+    const { page, limit } = req.query
+    const response = await productsMongoManager.paginate({}, { page, limit })
+    // paginate acepta dos argumentos
+    // el primero es para el filtro
+    // y el segundo es para la paginacion
+    // console.log(response);    
+    if (response.docs.length > 0) {
+      return res.status(200).json({
+        message: "PRODUCTS READ",
+        response: response.docs,
+        prevPage: response.prevPage,
+        hasPrevPage: response.hasPrevPage,
+        nextPage: response.nextPage,
+        hasNextPage: response.hasNextPage
+      });
+    } else {
+      const error = new Error("PRODUCTS NOT FOUND");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    return next(error)
+  }
+}
 const read = async (req, res, next) => {
   try {
     const { pid } = req.params;
@@ -77,4 +104,4 @@ const destroy = async (req, res, next) => {
   }
 };
 
-export { create, readAll, read, update, destroy };
+export { create, readAll, paginate, read, update, destroy };

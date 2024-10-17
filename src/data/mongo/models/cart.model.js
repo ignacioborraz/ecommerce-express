@@ -1,4 +1,5 @@
 import { Schema, Types, model } from "mongoose";
+import mongoosePaginator from "mongoose-paginate-v2"
 
 // cada producto que el usuario agrega al carrito
 // genera un documento cart
@@ -48,6 +49,8 @@ schema.pre(
         this.populate("product_id", "title photo category")
     }
 )
-
+schema.plugin(mongoosePaginator)
+// le indico al schema que tiene habilitado ademas de todos los metodos de mongoose
+// el método paginate() para poder paginar los documentos de la coleccion
 const Cart = model(collection, schema)
 export default Cart

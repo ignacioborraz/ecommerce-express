@@ -77,5 +77,15 @@ const destroy = async (req, res, next) => {
         return next(error)
     }
 }
+const calculateTotal = async (req, res, next) => {
+    try {
+        const { uid } = req.params;
+        // OJO!!! en los parametros tengo que pasar el id del usuario!!!
+        const response = await cartsMongoManager.calculateTotal(uid)
+        return res.status(200).json({ response })
+    } catch (error) {
+        return next(error)
+    }
+}
 
-export { create, readAll, read, update, destroy }
+export { create, readAll, read, update, destroy, calculateTotal }
